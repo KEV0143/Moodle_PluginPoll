@@ -1,0 +1,28 @@
+name: Обновление даты в README.md
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  update_readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Добавить актуальную дату в README.md
+        run: |
+          # Получаем текущую дату
+          CURRENT_DATE=$(date +"%d-%m-%Y")
+          
+          # Добавляем строку в README.md
+          echo "Репозиторий актуален ($CURRENT_DATE)" >> README.md
+          
+          # Настройка Git
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          
+          # Коммитим изменения в README.md
+          git add README.md
+          git commit -m "Обновление даты актуальности репозитория"
+          git push
